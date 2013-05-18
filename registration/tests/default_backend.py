@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.core.urlresolvers import reverse
-from django.test import TestCase
 
 from registration import signals
 from registration.admin import RegistrationAdmin
@@ -12,9 +11,10 @@ from registration.compat import User
 from registration.forms import RegistrationForm
 from registration.backends.default.views import RegistrationView
 from registration.models import RegistrationProfile
+from .test_base import OverriddenTemplatesTestCase
 
 
-class DefaultBackendViewTests(TestCase):
+class DefaultBackendViewTests(OverriddenTemplatesTestCase):
     """
     Test the default registration backend.
 

@@ -5,14 +5,16 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.core import management
-from django.test import TestCase
+from django.test.utils import override_settings
 from django.utils.hashcompat import sha_constructor
 
 from registration.compat import User
 from registration.models import RegistrationProfile
 
+from .test_base import OverriddenTemplatesTestCase
 
-class RegistrationModelTests(TestCase):
+@override_settings(ACCOUNT_ACTIVATION_DAYS=7)
+class RegistrationModelTests(OverriddenTemplatesTestCase):
     """
     Test the model and manager used in the default backend.
     
@@ -21,13 +23,6 @@ class RegistrationModelTests(TestCase):
                  'password': 'swordfish',
                  'email': 'alice@example.com'}
     
-    def setUp(self):
-        self.old_activation = getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', None)
-        settings.ACCOUNT_ACTIVATION_DAYS = 7
-
-    def tearDown(self):
-        settings.ACCOUNT_ACTIVATION_DAYS = self.old_activation
-
     def test_profile_creation(self):
         """
         Creating a registration profile for a user populates the

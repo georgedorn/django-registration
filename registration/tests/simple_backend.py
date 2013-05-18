@@ -1,16 +1,12 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.test import TestCase
 
 from registration.compat import User
 from registration.forms import RegistrationForm
-from django.test.utils import override_settings
-from . import TEST_TEMPLATE_DIRS
+from .test_base import OverriddenTemplatesTestCase
 
-
-class SimpleBackendViewTests(TestCase):
+class SimpleBackendViewTests(OverriddenTemplatesTestCase):
     urls = 'registration.backends.simple.urls'
-
 
     def test_allow(self):
         """
@@ -40,7 +36,6 @@ class SimpleBackendViewTests(TestCase):
 
         settings.REGISTRATION_OPEN = old_allowed
 
-    @override_settings(TEMPLATE_DIRS=TEST_TEMPLATE_DIRS)
     def test_registration_get(self):
         """
         HTTP ``GET`` to the registration view uses the appropriate
