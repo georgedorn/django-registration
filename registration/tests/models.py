@@ -1,12 +1,13 @@
 import datetime
 import re
+import hashlib
+
 
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.core import management
 from django.test.utils import override_settings
-from django.utils.hashcompat import sha_constructor
 
 from registration.compat import User
 from registration.models import RegistrationProfile
@@ -178,7 +179,7 @@ class RegistrationModelTests(OverriddenTemplatesTestCase):
         """
         # Due to the way activation keys are constructed during
         # registration, this will never be a valid key.
-        invalid_key = sha_constructor('foo').hexdigest()
+        invalid_key = hashlib.sha1('foo').hexdigest()
         self.failIf(RegistrationProfile.objects.activate_user(invalid_key))
 
     def test_expired_user_deletion(self):
